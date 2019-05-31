@@ -1,0 +1,25 @@
+#!/usr/bin/python
+# coding: utf-8
+
+# ===========================================================================
+# Munin Plugin - Ambient and object Temperature
+# ===========================================================================
+
+from mlx90614 import MLX90614
+import sys
+
+thermometer_address = 0x5a
+
+thermometer = MLX90614(thermometer_address)
+
+is_config = len(sys.argv) == 2 and sys.argv[1] == "config"
+
+if is_config:
+    print "graph_title Temperature"
+    print "graph_vlabel °C"
+    print "graph_category sensors"
+    print "amb.label Ambient Temp. (°C)"
+    print "obj.label Object Temp. (°C)"
+else:
+    print "amb.value %.4f" % thermometer.get_amb_temp()
+    print "obj.value %.4f" % thermometer.get_obj_temp() 
